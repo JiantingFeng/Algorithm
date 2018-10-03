@@ -1,1 +1,1 @@
-# Algorithm-DS
+# Algorithm
