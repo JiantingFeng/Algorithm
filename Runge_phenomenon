@@ -1,0 +1,29 @@
+clc; clear; close all;
+% 节点个数
+n = 101;
+X = linspace(-1,1,n);
+f = @(x) 1./(1+x.^2);
+Y = f(X);
+% Lagrange Interpolation
+m = length(X); L = ones(m,m);
+for k = 1 : m
+    V = 1;
+    for i = 1 : m
+        if k ~= i
+            V = conv(V,poly(X(i))) / (X(k) - X(i));
+        end
+    end
+    L1(k, :) = V; l(k, :) = poly2sym(V);
+end
+C = Y * L1;
+L = Y * l;
+Y1 = polyval(C,X);
+subplot(131);
+fplot(f); axis([-1 1 0 1])
+subplot(132)
+plot(X,Y1);
+% title('对比原函数与插值多项式');
+% legend('原函数图像','插值多项式图像');
+subplot(133);
+plot(X, abs(1-Y1./Y));
+title('相对误差');
